@@ -18,11 +18,15 @@ jobs:
                with:
                  username: ${{ secrets.DOCKERHUB_USERNAME }}
                  password: ${{ secrets.DOCKERHUB_TOKEN }}
-            - name: Build and push
+            - name: Build docker image
               uses: docker/build-push-action@v6
               with:
                 push: false
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
+            - name: Run Trivy vulnerability scanner
+              uses: aquasec/trivy-action@master
+              with:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
             - name: publish Docker Image
               if: success()
               uses: docker/build-push-action@v6
