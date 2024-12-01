@@ -22,4 +22,13 @@ jobs:
               uses: docker/build-push-action@v6
               with:
                 push: false
-                tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:latest
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
+            - name: publish Docker Image
+              if: success()
+              uses: docker/build-push-action@v6
+              with:
+                context: .
+                push: true
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
+                    
+                    
