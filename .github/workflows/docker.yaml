@@ -40,5 +40,7 @@ jobs:
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
             - name: check kubectl
               run: kubectl get nodes
+            - name: deploy application
+              run: kubectl apply -f ./manifests
                     
                     
