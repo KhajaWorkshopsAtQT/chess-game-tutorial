@@ -38,12 +38,6 @@ jobs:
                 context: .
                 push: true
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
-            - name: Azure CLI script
-              uses: azure/cli@v2
-              with:
-                azcliversion: latest
-                inlineScript: |
-                  az account show
             - name: check kubectl
               run: kubectl get nodes
                     
