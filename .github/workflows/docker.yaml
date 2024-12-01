@@ -24,9 +24,14 @@ jobs:
                 push: false
                 tags: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
             - name: Run Trivy vulnerability scanner
-              uses: aquasec/trivy-action@master
+              uses: aquasecurity/trivy-action@0.28.0
               with:
-                image: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
+                image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/chess:${{ github.sha }}
+                format: 'table'
+                exit-code: '1'
+                ignore-unfixed: true
+                vuln-type: 'os,library'
+                severity: 'CRITICAL,HIGH'
             - name: publish Docker Image
               if: success()
               uses: docker/build-push-action@v6
